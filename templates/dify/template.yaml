@@ -17,9 +17,9 @@ spec:
     - AI
   readme: |
     Note: This template is maintained by the Zeabur team, if you have any questions or need help, please contact us at [Zeabur's offical Discord server](https://zeabur.com/dc). You can also create issues or pull requests on [https://github.com/zeabur/dify-template](https://github.com/zeabur/dify-template).
-    
+
     ---
-    
+
     Dify is an open-source LLM app development platform. Its intuitive interface combines AI workflow, RAG pipeline, agent capabilities, model management, observability features and more, letting you quickly go from prototype to production. Here's a list of the core features:
 
     **1. Workflow**: 
@@ -274,10 +274,12 @@ spec:
           SECRET_KEY:
             default: ${API_SECRET_KEY}
           MIGRATION_ENABLED:
-            default: 'true'
+            default: "true"
           CONSOLE_WEB_URL:
             default: https://${PUBLIC_DOMAIN}.zeabur.app
           CONSOLE_API_URL:
+            default: https://${PUBLIC_DOMAIN}.zeabur.app
+          SERVICE_API_URL:
             default: https://${PUBLIC_DOMAIN}.zeabur.app
           APP_WEB_URL:
             default: https://${PUBLIC_DOMAIN}.zeabur.app
@@ -302,9 +304,9 @@ spec:
           DB_DATABASE:
             default: ${POSTGRES_DATABASE}
           REDIS_USERNAME:
-            default: ''
+            default: ""
           REDIS_USE_SSL:
-            default: 'false'
+            default: "false"
           REDIS_DB:
             default: 0
         ports:
@@ -337,7 +339,7 @@ spec:
           SECRET_KEY:
             default: ${API_SECRET_KEY}
           MIGRATION_ENABLED:
-            default: 'true'
+            default: "true"
           CONSOLE_WEB_URL:
             default: https://${PUBLIC_DOMAIN}.zeabur.app
           CONSOLE_API_URL:
@@ -365,9 +367,9 @@ spec:
           DB_DATABASE:
             default: ${POSTGRES_DATABASE}
           REDIS_USERNAME:
-            default: ''
+            default: ""
           REDIS_USE_SSL:
-            default: 'false'
+            default: "false"
           REDIS_DB:
             default: 0
     - name: web
@@ -392,7 +394,8 @@ spec:
         id: weaviate
         name: Weaviate
         icon: https://avatars.githubusercontent.com/u/37794290
-        description: Weaviate is a cloud-native, open source vector database that is
+        description:
+          Weaviate is a cloud-native, open source vector database that is
           robust, fast, and scalable.
         tags:
           - Database
@@ -413,28 +416,29 @@ spec:
           QUERY_DEFAULTS_LIMIT:
             default: 25
           AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED:
-            default: 'false'
+            default: "false"
           PERSISTENCE_DATA_PATH:
-            default: '/var/lib/weaviate'
+            default: "/var/lib/weaviate"
           DEFAULT_VECTORIZER_MODULE:
-            default: 'none'
+            default: "none"
           AUTHENTICATION_APIKEY_ENABLED:
-            default: 'true'
+            default: "true"
           AUTHENTICATION_APIKEY_ALLOWED_KEYS:
-            default: 'WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih'
+            default: "WVF5YThaHlkYwhGUSmCRgsX3tD5ngdN8pkih"
           AUTHENTICATION_APIKEY_USERS:
-            default: 'hello@dify.ai'
+            default: "hello@dify.ai"
           AUTHORIZATION_ADMINLIST_ENABLED:
-            default: 'true'
+            default: "true"
           AUTHORIZATION_ADMINLIST_USERS:
-            default: 'hello@dify.ai'
+            default: "hello@dify.ai"
     - name: nginx
       template: PREBUILT
       domainKey: PUBLIC_DOMAIN
       spec:
         id: nginx
         name: NGINX
-        description: nginx [engine x] is an HTTP and reverse proxy server, a mail proxy
+        description:
+          nginx [engine x] is an HTTP and reverse proxy server, a mail proxy
           server, and a generic TCP/UDP proxy server, originally written by Igor Sysoev.
         icon: https://www.svgrepo.com/show/373924/nginx.svg
         tags:
@@ -461,10 +465,10 @@ spec:
             template: >
               user  nginx;
               worker_processes  auto;
-              
+
               error_log  /var/log/nginx/error.log notice;
               pid        /var/run/nginx.pid;
-              
+
               events {
                 worker_connections  1024;
               }
@@ -472,13 +476,13 @@ spec:
               http {
                 include       /etc/nginx/mime.types;
                 default_type  application/octet-stream;
-              
+
                 log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                 '$status $body_bytes_sent "$http_referer" '
                 '"$http_user_agent" "$http_x_forwarded_for"';
-              
+
                 access_log  /var/log/nginx/access.log  main;
-              
+
                 sendfile        on;
                 keepalive_timeout  65;
                 client_max_body_size 15M;
@@ -490,7 +494,7 @@ spec:
               server {
                 listen 80;
                 server_name _;
-              
+
                 location /console/api {
                   proxy_pass http://api:5001;
                   include proxy.conf;
@@ -505,15 +509,15 @@ spec:
                   proxy_pass http://api:5001;
                   include proxy.conf;
                 }
-              
+
                 location /files {
                   proxy_pass http://api:5001;
                   include proxy.conf;
                 }
-              
+
                 location / {
                   proxy_pass http://web:3000;
                   include proxy.conf;
                 }
-              
+
               }
